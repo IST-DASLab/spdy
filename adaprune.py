@@ -1,3 +1,6 @@
+# AdaPrune & global AdaPrune implementations for unstructured, blocked and N:M pruning.
+
+
 import copy
 import math
 import torch
@@ -158,31 +161,91 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('model', type=str)
-    parser.add_argument('dataset', type=str)
-    parser.add_argument('mode', type=str, choices=['nmprune', 'gen', 'load'])
+    parser.add_argument(
+        'model', type=str, choices=get_models,
+        help='Model to work with.'
+    )
+    parser.add_argument(
+        'dataset', type=str, choices=DEFAULT_PATHS,
+        help='Dataset to use.'
+    )
+    parser.add_argument(
+        'mode', type=str, choices=['nmprune', 'gen', 'load'],
+        help='Operation mode of the script; "nmprune" for N:M pruning, "gen" for database generation, and "load" for profile evaluation.'
+    )
 
-    parser.add_argument('--collect_to', type=str, default='')
-    parser.add_argument('--stitch_from', type=str, default='')
-    parser.add_argument('--profile', default='')
-    parser.add_argument('--save', default='')
+    parser.add_argument(
+        '--collect_to', type=str, default='',
+        help='Folder to store database in; only used in "gen" mode.'
+    )
+    parser.add_argument(
+        '--stitch_from', type=str, default='',
+        help='Folder to load database from; only used in "load" mode.'
+    )
+    parser.add_argument(
+        '--profile', default='',
+        help='Profile to load; only used in "load" mode.'
+    )
+    parser.add_argument(
+        '--save', default='',
+        help='Whether and where to save the resulting checkpoint; not used in "gen" mode.'
+    )
 
-    parser.add_argument('--nmblocksize', type=int, default=4)
-    parser.add_argument('--blocksize', type=int, default=4)
+    parser.add_argument(
+        '--nmblocksize', type=int, default=4,
+        help='Blocksize for N:M pruning.'
+    )
+    parser.add_argument(
+        '--blocksize', type=int, default=4,
+        help='Blocksize used for block pruning.'
+    )
 
-    parser.add_argument('--datapath', type=str, default='')
-    parser.add_argument('--seed', type=int, default=0)
-    parser.add_argument('--nsamples', type=int, default=1024)
+    parser.add_argument(
+        '--datapath', type=str, default='',
+        help='Path to dataset.'
+    )
+    parser.add_argument(
+        '--seed', type=int, default=0,
+        help='Seed to use for calibration set selection.'
+    )
+    parser.add_argument(
+        '--nsamples', type=int, default=1024,
+        help='Number of samples in the calibration dataset.'
+    )
 
-    parser.add_argument('--min-sparsity', type=float, default=.4)
-    parser.add_argument('--max-sparsity', type=float, default=.99)
-    parser.add_argument('--steps', type=int, default=40)
+    parser.add_argument(
+        '--min-sparsity', type=float, default=.4,
+        help='Minimum database sparsity.'
+    )
+    parser.add_argument(
+        '--max-sparsity', type=float, default=.99,
+        help='Maximum database sparsity.'
+    )
+    parser.add_argument(
+        '--steps', type=int, default=40,
+        help='Number of equal relative steps between min and max sparsity.'
+    )
 
-    parser.add_argument('--batchsize', type=int, default=32)
-    parser.add_argument('--iters_layerw', type=int, default=10)
-    parser.add_argument('--iters_global', type=int, default=100)
-    parser.add_argument('--lr_layerw', type=float, default=1e-3)
-    parser.add_argument('--lr_global', type=float, default=1e-5)
+    parser.add_argument(
+        '--batchsize', type=int, default=32,
+        help='AdaPrune and global AdaPrune batchsize.'
+    )
+    parser.add_argument(
+        '--iters_layerw', type=int, default=10,
+        help='Number of dataset passes for layer-wise AdaPrune.'
+    )
+    parser.add_argument(
+        '--iters_global', type=int, default=100,
+        help='Number of dataset passes for global AdaPrune.'
+    )
+    parser.add_argument(
+        '--lr_layerw', type=float, default=1e-3,
+        help='Learning rate for layer-wise AdaPrune.'
+    )
+    parser.add_argument(
+        '--lr_global', type=float, default=1e-5,
+        help='Learning rate for global AdaPrune.'
+    )
 
     args = parser.parse_args()
 

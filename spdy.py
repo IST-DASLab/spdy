@@ -1,3 +1,6 @@
+# SPDY search & DP algorithm implementation.
+
+
 import copy
 import math
 import random
@@ -201,16 +204,43 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('model', type=str)
-    parser.add_argument('dataset', type=str)
-    parser.add_argument('database', type=str)
-    parser.add_argument('timings', type=str)
-    parser.add_argument('target', type=float)
-    parser.add_argument('profile', type=str)
+    parser.add_argument(
+        'model', type=str, choices=get_models,
+        help='Model to work with.'
+    )
+    parser.add_argument(
+        'dataset', type=str, choices=DEFAULT_PATHS,
+        help='Dataset to use.'
+    )
+    parser.add_argument(
+        'database', type=str,
+        help='Database location.'
+    )
+    parser.add_argument(
+        'timings', type=str,
+        help='Timings file.'
+    )
+    parser.add_argument(
+        'target', type=float,
+        help='Target speedup.'
+    )
+    parser.add_argument(
+        'profile', type=str,
+        help='Where to save the resulting profile.'
+    )
 
-    parser.add_argument('--datapath', type=str, default='')
-    parser.add_argument('--seed', type=int, default=0)
-    parser.add_argument('--nsamples', type=int, default=1024)
+    parser.add_argument(
+        '--datapath', type=str, default='',
+        help='Path to dataset.'
+    )
+    parser.add_argument(
+        '--seed', type=int, default=0,
+        help='Seed to use for calibration set selection.'
+    )
+    parser.add_argument(
+        '--nsamples', type=int, default=1024,
+        help='Number of samples in the calibration dataset.'
+    )
 
     args = parser.parse_args()
 
