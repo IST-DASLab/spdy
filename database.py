@@ -55,7 +55,6 @@ class UnstrDatabase:
             errors[name] = {}
             for i, s in enumerate(sorted(self.db[name])):
                 errors[name][s] = (i / (len(self.db[name])- 1)) ** 2
-        print(errors)
         return errors 
 
     def get_params(self, layers):

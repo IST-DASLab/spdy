@@ -1,5 +1,6 @@
 import os
 import sys
+sys.path.append('yolov5')
 
 import numpy as np
 import torch
@@ -51,11 +52,34 @@ def get_imagenet(path, noaug=False):
 
     return train_dataset, test_dataset
 
+class YOLOv5Wrapper(Dataset):
+    def __init__(self, original):
+        self.original = original
+    def __len__(self):
+        return len(self.original)
+    def __getitem__(self, idx):
+        tmp = list(self.original[idx])
+        tmp[0] = tmp[0].float() / 255
+        return tmp
+
+def get_coco(path, batchsize):
+    from yolov5.utils.datasets import LoadImagesAndLabels
+    train_data = LoadImagesAndLabels(
+        os.path.join(path, 'images/calib'), batch_size=batchsize
+    )
+    train_data = YOLOv5Wrapper(train_data)
+    train_data.collate_fn = LoadImagesAndLabels.collate_fn
+    test_data = LoadImagesAndLabels(
+        os.path.join(path, 'images/val2017'), batch_size=batchsize, pad=.5
+    )
+    test_data = YOLOv5Wrapper(test_data)
+    test_data.collate_fn = LoadImagesAndLabels.collate_fn
+    return train_data, test_data
+
 
 DEFAULT_PATHS = {
-    'imagenet': [
-        '/home/Datasets/ILSVRC/Data/CLS-LOC', '/nvmedisk/Datasets/ILSVRC/Data/CLS-LOC'
-    ]
+    'imagenet': ['../imagenet'],
+    'coco': ['../coco']
 }
 
 def get_loaders(
@@ -72,6 +96,10 @@ def get_loaders(
             batchsize = 128
         train_data, test_data = get_imagenet(path, noaug=noaug)
         train_data = random_subset(train_data, nsamples, seed)
+    if name == 'coco':
+        if batchsize == -1:
+            batchsize = 16
+        train_data, test_data = get_coco(path, batchsize)
 
     collate_fn = train_data.collate_fn if hasattr(train_data, 'collate_fn') else None
     trainloader = DataLoader(

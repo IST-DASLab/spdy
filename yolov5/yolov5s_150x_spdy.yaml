@@ -1,0 +1,457 @@
+# General Hyperparams
+num_epochs: &num_epochs 240
+init_lr: &init_lr 0.01
+final_lr: &final_lr 0.002
+
+# Pruning Hyperparams
+init_sparsity: &init_sparsity 0.05
+pruning_start_epoch: &pruning_start_epoch 0
+pruning_end_epoch: &pruning_end_epoch 100
+update_frequency: &pruning_update_frequency 1.0
+
+training_modifiers:
+
+  - !EpochRangeModifier
+    start_epoch: 0
+    end_epoch: *num_epochs
+    
+  - !LearningRateFunctionModifier
+    start_epoch: 0
+    end_epoch: *num_epochs
+    lr_func: cosine
+    init_lr: *init_lr
+    final_lr: *final_lr
+
+pruning_modifiers:
+
+  - !GMPruningModifier
+    params:
+      - model.1.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.6015
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.2.cv2.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.4583
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.2.cv3.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.4000
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.3.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.6753
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.4.cv1.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.4000
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.4.m.0.cv1.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.4000
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.4.m.1.cv1.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.4000
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.4.cv2.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.4000
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.4.cv3.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.4583
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.5.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.7354
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.6.cv2.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.4583
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.6.cv1.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.4000
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.6.m.0.cv1.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.4583
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.6.m.1.cv1.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.4000
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.6.m.2.cv1.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.4000
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.6.cv3.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.4583
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.7.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.7844
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.8.cv2.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.4583
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.8.cv1.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.4000
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.8.m.0.cv1.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.4000
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.8.cv3.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.5586
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.9.cv1.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.4583
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.9.cv2.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.7354
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.10.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.4000
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.13.cv2.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.5110
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.13.cv1.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.5110
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.13.m.0.cv1.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.4000
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.13.cv3.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.5110
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.14.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.4000
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.17.cv2.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.6015
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.17.cv1.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.6015
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.17.m.0.cv1.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.4000
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.17.cv3.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.5110
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.18.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.8414
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.20.cv2.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.6015
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.20.cv1.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.6753
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.20.m.0.cv1.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.4000
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.20.m.0.cv2.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.8707
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.20.cv3.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.7354
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.21.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.9849
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.23.cv2.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.6403
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.23.cv1.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.5586
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.23.m.0.cv1.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.5110
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.23.m.0.cv2.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.9535
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.23.cv3.conv.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.8243
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.24.m.2.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.8707
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.24.m.1.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.7354
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
+
+  - !GMPruningModifier
+    params:
+      - model.24.m.0.weight
+    init_sparsity: *init_sparsity
+    final_sparsity: 0.6015
+    start_epoch: *pruning_start_epoch
+    end_epoch: *pruning_end_epoch
+    update_frequency: *pruning_update_frequency
